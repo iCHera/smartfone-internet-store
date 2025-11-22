@@ -3,6 +3,23 @@
     <div class="container header-content">
       <router-link :to="{ name: 'home', hash: '#hero' }" class="logo">📱 iStore</router-link>
       
+      <div class="search-container" v-click-outside="closeSearch">
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Найти iPhone..."
+          v-model="searchTerm"
+          @focus="isSearchVisible = true"
+        />
+        
+        <SearchResults 
+          v-if="isSearchVisible && searchTerm.length > 1"
+          :results="searchResults"
+          :loading="cartStore.productsLoading"
+          @click="closeSearch"
+        />
+      </div>
+
       <nav>
         <router-link :to="{ name: 'home', hash: '#about' }">О нас</router-link>
         <router-link :to="{ name: 'home', hash: '#catalog' }">Каталог</router-link>
@@ -19,9 +36,29 @@
 </template>
 
 <script setup>
-import { useCartStore } from '../stores/cart';
-const emit = defineEmits(['open-cart']);
-const cartStore = useCartStore();
+
+  import { ref, computed } from 'vue';
+  import { useCartStore } from '../stores/cart';
+  import SearchResults from './SearchResults.vue';
+
+  const cartStore = useCartStore();
+
+  const searchTerm = ref('');
+  const isSearchVisible = ref(false);
+
+  const searchResults = computed(() => {
+    if (searchTerm.value.length < 2) {
+      return []; 
+    }
+    const query = searchTerm.value.toLowerCase();
+  
+    return cartStore.allProducts.filter(product => 
+      product.model_name.toLowerCase().includes(query)
+    ).slice(0, 10); 
+  });
+
+  const closeSearch = () => { isSearchVisible.value = false; searchTerm.value = ''; };
+
 </script>
 
 <style scoped>
@@ -83,5 +120,36 @@ nav a:hover {
 .cart-btn:hover {
   background: #f5f5f7;
   border-color: #bbb;
+}
+
+.search-container {
+  position: relative;
+  flex-grow: 1; 
+  max-width: 500px; 
+}
+
+.search-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 40px 0 20px;
+  border-radius: 20px;
+  border: 1px solid transparent; 
+  background-color: #e8e8ed; 
+  font-size: 0.95rem;
+  font-family: var(--font-main);
+  color: var(--text-main);
+  transition: all 0.3s ease;
+  margin-left: 20px;
+}
+
+.search-input::placeholder {
+  color: #86868b;
+}
+
+.search-input:focus {
+  outline: none;
+  background-color: white; 
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15); 
 }
 </style>

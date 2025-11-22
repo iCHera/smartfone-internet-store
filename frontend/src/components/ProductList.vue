@@ -1,9 +1,9 @@
 <template>
   <div class="product-grid">
-    <div v-if="loading" class="status">Загрузка товаров...</div>
+    <div v-if="cartStore.productsLoading" class="status">Загрузка товаров...</div>
     <div v-else-if="error" class="status error">{{ error }}</div>
 
-    <div v-else v-for="product in products" :key="product.id" class="product-card">
+    <div v-else v-for="product in cartStore.allProducts" :key="product.id" class="product-card">
       <router-link :to="{ name: 'product', params: { id: product.id } }" target="_blank" class="image-link">
         <div class="image-wrapper">
           <img 
@@ -32,31 +32,31 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import api from '../services/api'; 
+// import { ref, onMounted } from 'vue';
+// import api from '../services/api'; 
 import { useCartStore } from '../stores/cart'; 
 
 const cartStore = useCartStore();
 
-const products = ref([]);
-const error = ref(null);
-const loading = ref(true);
+// const products = ref([]);
+// const error = ref(null);
+// const loading = ref(true);
 
-const fetchProducts = async () => {
-  try {
-    const response = await api.getProducts();
-    products.value = response.data;
-  } catch (err) {
-    console.error('Ошибка:', err);
-    error.value = 'Ошибка загрузки каталога.';
-  } finally {
-    loading.value = false;
-  }
-};
+// const fetchProducts = async () => {
+//   try {
+//     const response = await api.getProducts();
+//     products.value = response.data;
+//   } catch (err) {
+//     console.error('Ошибка:', err);
+//     error.value = 'Ошибка загрузки каталога.';
+//   } finally {
+//     loading.value = false;
+//   }
+// };
 
-onMounted(() => {
-  fetchProducts();
-});
+// onMounted(() => {
+//   fetchProducts();
+// });
 </script>
 
 <style scoped>

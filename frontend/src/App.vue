@@ -9,10 +9,14 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, onMounted  } from 'vue';
   import Header from './components/Header.vue';
   import AppFooter from './components/Footer.vue';
   import CartDrawer from './components/CartDrawer.vue';
+
+  import { useCartStore } from './stores/cart';
+
+  const cartStore = useCartStore();
   
   const isCartOpen = ref(false);
   
@@ -25,6 +29,10 @@
     isCartOpen.value = false;
     document.body.style.overflow = '';
   };
+
+  onMounted(() => {
+    cartStore.fetchAllProducts();
+  });
 </script>
 
 <style scoped>

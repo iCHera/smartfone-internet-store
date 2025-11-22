@@ -1,7 +1,11 @@
 import { defineStore } from 'pinia';
-import { ref, computed, watch } from 'vue'; 
+import { ref, computed, watch } from 'vue';
+import api from '../services/api'; 
 
 export const useCartStore = defineStore('cart', () => {
+
+  const allProducts = ref([]);
+  const productsLoading = ref(false);
 
   const items = ref([]);
   const itemsFromStorage = localStorage.getItem('cartItems');
@@ -58,7 +62,23 @@ export const useCartStore = defineStore('cart', () => {
     items.value = [];
   };
 
+  const fetchAllProducts = async () => {
+    if (allProducts.value.length > 0) return;
+    productsLoading.value = true;
+    try {
+      const response = await api.getProducts();
+      allProducts.value = response.data;
+    } catch (error) {
+      console.error("Не удалось загрузить товары", error);
+    } finally {
+      productsLoading.value = false;
+    }
+  };
+
   return {
+    allProducts,
+    productsLoading,
+    fetchAllProducts,
     items,
     totalItems,
     totalPrice,
