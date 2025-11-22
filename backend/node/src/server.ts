@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 import sql from 'mssql'; 
 import productRoutes from './routes/productsRoutes';
+import orderRoutes from './routes/ordersRoutes';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ const startServer = async () => {
         });
 
         app.use('/api/products', productRoutes);
+        app.use('/api/orders', orderRoutes);
 
         app.get('/', (req: Request, res: Response) => {
             res.send('Backend Node.js (TypeScript) с mssql работает!');
