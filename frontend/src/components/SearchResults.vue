@@ -1,10 +1,3 @@
-<script setup>
-defineProps({
-  results: Array,
-  loading: Boolean
-});
-</script>
-
 <template>
   <div class="search-results">
     <div v-if="loading" class="result-item status-item">Загрузка...</div>
@@ -32,6 +25,13 @@ defineProps({
     </router-link>
   </div>
 </template>
+
+<script setup>
+defineProps({
+  results: Array,
+  loading: Boolean
+});
+</script>
 
 <style scoped>
 .search-results {
