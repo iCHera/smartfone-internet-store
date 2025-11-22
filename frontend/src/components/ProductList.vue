@@ -32,31 +32,9 @@
 </template>
 
 <script setup>
-// import { ref, onMounted } from 'vue';
-// import api from '../services/api'; 
 import { useCartStore } from '../stores/cart'; 
 
 const cartStore = useCartStore();
-
-// const products = ref([]);
-// const error = ref(null);
-// const loading = ref(true);
-
-// const fetchProducts = async () => {
-//   try {
-//     const response = await api.getProducts();
-//     products.value = response.data;
-//   } catch (err) {
-//     console.error('Ошибка:', err);
-//     error.value = 'Ошибка загрузки каталога.';
-//   } finally {
-//     loading.value = false;
-//   }
-// };
-
-// onMounted(() => {
-//   fetchProducts();
-// });
 </script>
 
 <style scoped>
