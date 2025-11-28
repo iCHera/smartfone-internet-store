@@ -8,6 +8,7 @@
 ![iStore Preview](./Photo/image4.png) 
 ![iStore Preview](./Photo/image5.png) 
 ![iStore Preview](./Photo/image6.png) 
+![iStore Preview](./Photo/image7.png) 
 
 ## 🚀 Технологический стек
 
